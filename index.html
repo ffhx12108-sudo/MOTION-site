@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Nicolas — Motion Design</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: #06111f;
+      color: white;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+    }
+
+    /* FUNDO */
+
+    .background {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 50% 20%, #1477b8 0%, transparent 35%),
+        linear-gradient(180deg, #061a2d, #020811);
+    }
+
+    /* LUZES */
+
+    .light {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: .25;
+      animation: lightMove 8s ease-in-out infinite alternate;
+    }
+
+    .light.one {
+      background: #008cff;
+      top: -200px;
+      left: -150px;
+    }
+
+    .light.two {
+      background: #00d9ff;
+      right: -200px;
+      bottom: -200px;
+      animation-delay: 2s;
+    }
+
+    @keyframes lightMove {
+      from {
+        transform: translate(0, 0);
+      }
+
+      to {
+        transform: translate(100px, 60px);
+      }
+    }
+
+    /* ÁGUA */
+
+    .water-container {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 35vh;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .water {
+      position: absolute;
+      left: -5%;
+      bottom: -15%;
+      width: 110%;
+      height: 100%;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(0, 174, 255, .65),
+          rgba(0, 71, 145, .85)
+        );
+
+      border-radius: 50% 50% 0 0 / 15% 15% 0 0;
+
+      animation:
+        waterLevel 7s ease-in-out infinite,
+        waterWave 4s ease-in-out infinite;
+    }
+
+    .water::before,
+    .water::after {
+      content: "";
+      position: absolute;
+      width: 120%;
+      height: 100px;
+      left: -10%;
+      top: -45px;
+      border-radius: 50%;
+
+      background: rgba(74, 207, 255, .45);
+
+      animation: wave 5s ease-in-out infinite alternate;
+    }
+
+    .water::after {
+      top: -25px;
+      background: rgba(255, 255, 255, .12);
+      animation-duration: 7s;
+      animation-direction: alternate-reverse;
+    }
+
+    @keyframes waterLevel {
+      0%, 100% {
+        height: 30%;
+      }
+
+      50% {
+        height: 85%;
+      }
+    }
+
+    @keyframes waterWave {
+      0%, 100% {
+        transform: translateX(-2%);
+      }
+
+      50% {
+        transform: translateX(2%);
+      }
+    }
+
+    @keyframes wave {
+      from {
+        transform: translateX(-4%) rotate(-2deg);
+      }
+
+      to {
+        transform: translateX(4%) rotate(2deg);
+      }
+    }
+
+    /* CONTEÚDO */
+
+    main {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 20px;
+    }
+
+    .content {
+      width: min(900px, 100%);
+      text-align: center;
+      padding: 50px 30px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 9px 18px;
+      margin-bottom: 25px;
+
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 999px;
+
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(15px);
+
+      font-size: 14px;
+      letter-spacing: .5px;
+
+      animation: fadeUp 1s ease forwards;
+    }
+
+    h1 {
+      font-size: clamp(32px, 6vw, 70px);
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -2.5px;
+
+      margin-bottom: 25px;
+
+      animation: titleIn 1.2s cubic-bezier(.16,1,.3,1) forwards;
+    }
+
+    h1 span {
+      background: linear-gradient(
+        90deg,
+        #ffffff,
+        #72d8ff,
+        #ffffff
+      );
+
+      background-size: 200%;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      animation: gradientMove 4s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0%;
+      }
+
+      50% {
+        background-position: 100%;
+      }
+
+      100% {
+        background-position: 0%;
+      }
+    }
+
+    .intro {
+      max-width: 700px;
+      margin: auto;
+
+      font-size: clamp(18px, 2.5vw, 23px);
+      line-height: 1.55;
+      color: rgba(255,255,255,.82);
+
+      animation: fadeUp 1s .25s ease both;
+    }
+
+    /* SERVIÇOS */
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+
+      max-width: 650px;
+      margin: 35px auto;
+
+      text-align: left;
+    }
+
+    .service {
+      padding: 18px 20px;
+
+      border-radius: 18px;
+
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+
+      backdrop-filter: blur(18px);
+
+      transition:
+        transform .3s ease,
+        background .3s ease;
+
+      animation: cardIn .8s ease both;
+    }
+
+    .service:nth-child(1) {
+      animation-delay: .35s;
+    }
+
+    .service:nth-child(2) {
+      animation-delay: .45s;
+    }
+
+    .service:nth-child(3) {
+      animation-delay: .55s;
+    }
+
+    .service:nth-child(4) {
+      animation-delay: .65s;
+    }
+
+    .service:nth-child(5) {
+      animation-delay: .75s;
+    }
+
+    .service:hover {
+      transform: translateY(-6px) scale(1.02);
+      background: rgba(255,255,255,.12);
+    }
+
+    .emoji {
+      margin-right: 8px;
+    }
+
+    /* CTA */
+
+    .cta {
+      margin-top: 35px;
+
+      animation: fadeUp 1s .8s ease both;
+    }
+
+    .cta p {
+      font-size: 18px;
+      color: rgba(255,255,255,.75);
+      margin-bottom: 20px;
+    }
+
+    .button {
+      display: inline-block;
+
+      padding: 16px 28px;
+
+      border-radius: 999px;
+
+      color: #00111d;
+      background: white;
+
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+
+      box-shadow:
+        0 10px 40px rgba(0, 170, 255, .25);
+
+      transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-4px) scale(1.04);
+
+      box-shadow:
+        0 15px 50px rgba(0, 190, 255, .45);
+    }
+
+    /* ANIMAÇÕES DO TEXTO */
+
+    @keyframes titleIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(.95);
+        filter: blur(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(35px) scale(.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* RESPONSIVO */
+
+    @media (max-width: 600px) {
+      .content {
+        padding: 30px 15px;
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        letter-spacing: -1.5px;
+      }
+
+      .water-container {
+        height: 45vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="background">
+    <div class="light one"></div>
+    <div class="light two"></div>
+  </div>
+
+  <div class="water-container">
+    <div class="water"></div>
+  </div>
+
+  <main>
+
+    <section class="content">
+
+      <div class="badge">
+        🎬 Motion Design & Edição
+      </div>
+
+      <h1>
+        <span>🚀 Quer deixar seu conteúdo muito mais profissional?</span>
+      </h1>
+
+      <p class="intro">
+        Eu sou o <strong>Nicolas</strong>, editor e criador de
+        Motion Design 🎬🔥
+      </p>
+
+      <div class="services">
+
+        <div class="service">
+          <span class="emoji">🎞️</span>
+          Edições para Reels, TikTok e Shorts
+        </div>
+
+        <div class="service">
+          <span class="emoji">✨</span>
+          Motion Design
+        </div>
+
+        <div class="service">
+          <span class="emoji">📱</span>
+          Posts para Instagram
+        </div>
+
+        <div class="service">
+          <span class="emoji">⚡</span>
+          Animações e efeitos
+        </div>
+
+        <div class="service">
+          <span class="emoji">🎨</span>
+          Artes personalizadas
+        </div>
+
+      </div>
+
+      <div class="cta">
+
+        <p>
+          📩 Quer transformar sua ideia em um conteúdo incrível?
+          <br>
+          Chama no direct e faça seu orçamento!
+        </p>
+
+        <a
+          class="button"
+          href="https://instagram.com/nicolaspietro.013"
+          target="_blank"
+        >
+          @nicolaspietro.013
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</body>
+</html>
